@@ -9,8 +9,12 @@ import { toggleSidebar, setCategory, setSearchSuggestion } from "../utils/appSli
 import { useState } from "react";
 import { SEARCH_SUGGESTIONS_API } from "../constant/youtube";
 import axios from "axios";
+import ProfileMenu from "./ProfileMenu/ProfileMenu";
+import Notifications from "./Notifications/Notifications";
 
 const Navbar = () => {
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
     const [input, setInput] = useState("");
     const [suggestion, setSuggestion] = useState(false);
     const dispatch = useDispatch();
@@ -48,19 +52,18 @@ const Navbar = () => {
         }
 
     }, [input])
-
     return (
-        <div className="flex fixed top-0 justify-center items-center w-[100%] z-10 bg-white">
+        <div className="flex fixed top-0 justify-center items-center w-[100%] z-10 text-white bg-black">
             <div className="flex w-[96%] py-3 justify-between items-center">
 
                 <div className="flex items-center ">
                     <GiHamburgerMenu onClick={toggleHandler} size="24px" className="cursor-pointer" />
                     {/* /*<img className="px-4" width={"115px"} src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/768px-YouTube_Logo_2017.svg.png" alt="yt_logo" />  */}
-                <h1 className="text-[18px] font-semibold font-serif text-pretty pl-2 cursor-pointer">SPACETUBE</h1>
+                <h1 className="text-[18px] font-semibold font-serif text-pretty pl-2 cursor-pointer">RE-TUBE</h1>
                 </div>
                 <div className="flex w-[40%] items-center">
                     <div className="flex w-[100%] ">
-                        <input value={input} onFocus={openSuggestion} onChange={(e) => setInput(e.target.value)} type="text" placeholder="Search" className="w-full py-2 px-4 border border-gray-400 rounded-l-full outline-none" />
+                        <input value={input} onFocus={openSuggestion} onChange={(e) => setInput(e.target.value)} type="text" placeholder="Search" className="w-full py-2 px-4 border border-gray-400 rounded-l-full outline-none bg-black" />
                         <button onClick={searchVideo} className="py-2 border border-gray-400 rounded-r-full px-4"><CiSearch size="24px" /></button>
                     </div>
                     {
@@ -82,15 +85,20 @@ const Navbar = () => {
                     }
 
                 </div>
-
-
-
                 <div className="flex w-[10%] justify-between items-center">
-                    <IoIosNotificationsOutline size={"24px"} className="cursor-pointer" />
+                    <IoIosNotificationsOutline onClick={()=> setShowNotifications(!showNotifications)} size={"24px"} className="cursor-pointer" />
                     <CiVideoOn size={"24px"} className="cursor-pointer" />
-                    <Avatar src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
+                    <Avatar  onClick={() => setShowProfileMenu(!showProfileMenu)} className="cursor-pointer" src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
                 </div>
 
+                {
+                    showProfileMenu &&
+                    <ProfileMenu />
+                }
+                {
+                    showNotifications &&
+                    <Notifications />
+                }
             </div>
         </div>
     );

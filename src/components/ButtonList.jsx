@@ -17,12 +17,12 @@ const ButtonList = () => {
   console.log(active);
 
   return (
-    <div className='flex w-full overflow-x-scroll no-scrollbar my-1'>
+    <div className='flex w-full overflow-x-scroll no-scrollbar my-3 mb-3'>
       {
         buttonList.map((buttonName, index) => {
           return (
             <div key={index}>
-              <button onClick={() => { videoByTag(buttonName) }} className={`${active === buttonName ? "bg-slate-900 text-white" : "bg-gray-200"} w-fit font-medium mx-1 cursor-pointer px-3 py-2 rounded-lg`}><span className="whitespace-nowrap">{buttonName}</span></button>
+              <button onClick={() => { videoByTag(buttonName) }} className={`${active === buttonName ? "bg-slate-900 text-white" : "bg-gray-600 bg-opacity-70"} w-fit font-medium mx-1 cursor-pointer px-2 py-1 rounded-lg`}><span className="whitespace-nowrap">{buttonName}</span></button>
             </div>
           )
         })

@@ -39,14 +39,22 @@ const VideoContainer = () => {
     }, [category]);
 
     return (
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-2 sm:grid-cols-3 gap-3'>
             {
                 video.map((item) => {
                     console.log(item);
                     return (
-                        <Link to={`/watch?v=${typeof item.id === 'object' ? item.id.videoId : item.id }`} key={typeof item.id === 'object' ? item.id.videoId : video.id } >
-                            <VideoCart item={item} />
-                        </Link>
+                        <Link
+                        to={{
+                          pathname: `/watch`,
+                          search: `?v=${typeof item.id === 'object' ? item.id.videoId : item.id}`,
+                        }}
+                        state={{ item }}
+                        key={typeof item.id === 'object' ? item.id.videoId : video.id}
+                      >
+                        <VideoCart duration={item?.contentDetails?.duration} item={item} />
+                      </Link>
+                      
 
                     )
                 })
@@ -56,4 +64,4 @@ const VideoContainer = () => {
     )
 }
 
-export default VideoContainer
+export default VideoContainer;

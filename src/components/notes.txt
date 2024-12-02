@@ -1,0 +1,23 @@
+abhii
+//duration 
+//publishedAt
+//viewCount
+
+bad men
+//commentCount
+//favoriteCount
+//likeCount
+
+
+const formatSubscriberCount = (count) => {
+        if (count >= 1000000000) {
+            return (count / 1000000000).toFixed(1) + 'B';
+        } else if (count >= 1000000) {
+            return (count / 1000000).toFixed(1) + 'M';
+        } else if (count >= 1000) {
+            return (count / 1000).toFixed(1) + 'K';
+        } else {
+            return count.toString();
+        }
+    };
+      setSubscriberCount(formatSubscriberCount(parseInt(channelData?.statistics?.subscriberCount)));
