@@ -57,7 +57,7 @@ const Watch = () => {
                     `https://www.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id=${singleVideo.snippet.channelId}&key=${API_KEY}`
                 );
                 const channelData = res?.data?.items[0];
-                setYouTubeIcon(channelData.snippet.thumbnails.high.url);
+                setYouTubeIcon(channelData?.snippet?.thumbnails?.high?.url);
                 setSubscriberCount(formatSubscriberCount(parseInt(channelData?.statistics?.subscriberCount)));
             }
         } catch (error) {
@@ -70,7 +70,7 @@ const Watch = () => {
             const res = await axios.get(
                 // `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${item.snippet.channelId}&key=${API_KEY}`
                 `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=${videoId}&type=video&key=${API_KEY}`)
-                setYouTubeIcon(res.data.items[0].snippet.thumbnails.standard.url)
+                setYouTubeIcon(res?.data?.items[0]?.snippet?.thumbnails?.standard?.url)
                 setSuggestedVideos(res?.data?.items || []);
         } catch (error) {
             console.error("Error fetching suggested videos:", error);

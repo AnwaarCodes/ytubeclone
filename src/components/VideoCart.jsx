@@ -9,8 +9,8 @@ const VideoCart = ({ item, duration }) => {
     const getYoutubeChannelName = async () => {
         try {
             const res = await axios.get(`https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${item.snippet.channelId}&key=${API_KEY}`)
-            setYtIcon(res.data.items[0].snippet.thumbnails.high.url);
-            console.log(res.data)
+            setYtIcon(res?.data?.items[0]?.snippet?.thumbnails?.high?.url);
+            console.log(res?.data)
         } catch (error) {
             console.log(error);
         }

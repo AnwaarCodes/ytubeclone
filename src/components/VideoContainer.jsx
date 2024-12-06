@@ -39,7 +39,7 @@ const VideoContainer = () => {
     }, [category]);
 
     return (
-        <div className='grid grid-cols-2 sm:grid-cols-3 gap-3'>
+        <div key={video} className='grid grid-cols-2 sm:grid-cols-3 gap-3'>
             {
                 video.map((item) => {
                     console.log(item);
