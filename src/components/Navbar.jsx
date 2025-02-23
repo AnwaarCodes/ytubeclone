@@ -32,26 +32,49 @@ const Navbar = () => {
     const showSuggestion = async () => {
         try {
             const res = await axios.get(SEARCH_SUGGESTIONS_API + input);
-            dispatch(setSearchSuggestion(res?.data[1]))
+            dispatch(setSearchSuggestion(res?.data[1] || []));
         } catch (error) {
             console.log(error);
         }
     }
+    // const showSuggestion = async () => {
+    //     if (!input.trim()) return;  // Prevent empty input requests
+    //     try {
+    //         const res = await axios.get(`${SEARCH_SUGGESTIONS_API}${encodeURIComponent(input)}`);
+    //         dispatch(setSearchSuggestion(res?.data[1] || []));
+    //     } catch (error) {
+    //         console.error("Error fetching suggestions:", error);
+    //     }
+    // };
+    
 
     const openSuggestion = () => {
         setSuggestion(true);
     }
 
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         showSuggestion();
+    //     }, 200)
+
+    //     return () => {
+    //         clearTimeout(timer);
+    //     }
+
+    // }, [input])
+
     useEffect(() => {
+        if (input.trim() === "") {
+            return;
+        }
+    
         const timer = setTimeout(() => {
             showSuggestion();
-        }, 200)
-
-        return () => {
-            clearTimeout(timer);
-        }
-
-    }, [input])
+        }, 200);
+    
+        return () => clearTimeout(timer);
+    }, [input]);
+    
     return (
         <div className="flex fixed top-0 justify-center items-center w-[100%] z-10 text-white bg-black">
             <div className="flex w-[96%] py-3 justify-between items-center">
@@ -73,7 +96,7 @@ const Navbar = () => {
                                 {
                                     searchSuggestion.map((text, idx) => {
                                         return (
-                                            <div className="flex items-center px-4 hover:bg-gray-100">
+                                            <div key={idx} className="flex items-center px-4 hover:bg-gray-100">
                                                 <CiSearch size="24px" />
                                                 <li className="px-2 py-1 cursor-pointer text-md font-medium">{text}</li>
                                             </div>
@@ -90,7 +113,6 @@ const Navbar = () => {
                     <CiVideoOn size={"24px"} className="cursor-pointer" />
                     <Avatar  onClick={() => setShowProfileMenu(!showProfileMenu)} className="cursor-pointer" src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
                 </div>
-
                 {
                     showProfileMenu &&
                     <ProfileMenu />

@@ -20,32 +20,41 @@ const VideoCart = ({ item, duration }) => {
         getYoutubeChannelName();
     }, [])
 
+    
     const formatDuration = (isoDuration) => {
-        let hours = 0,
-            minutes = 0,
-            seconds = 0;
-
+        if (!isoDuration || typeof isoDuration !== "string") {
+            return "00:00"; // Return default value if input is invalid
+        }
+    
+        let hours = 0, minutes = 0, seconds = 0;
+    
         // Match the ISO duration string
         const match = isoDuration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-
+    
         if (match) {
-            hours = parseInt(match[1]) || 0;
-            minutes = parseInt(match[2]) || 0;
-            seconds = parseInt(match[3]) || 0;
+            hours = match[1] ? parseInt(match[1]) : 0;
+            minutes = match[2] ? parseInt(match[2]) : 0;
+            seconds = match[3] ? parseInt(match[3]) : 0;
         }
-
-        // Format as hours:minutes:seconds
+    
+        // Format as HH:MM:SS or MM:SS
         return `${hours > 0 ? hours + ':' : ''}${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
+    
+    
 
+    // const formatViews = (views) => {
+    //     if (views >= 1000000) {
+    //         return (views / 1000000).toFixed(1) + "M";
+    //     } else if (views >= 1000) {
+    //         return (views / 1000).toFixed(1) + "K";
+    //     }
+    //     return views.toString();
+    // };
     const formatViews = (views) => {
-        if (views >= 1000000) {
-            return (views / 1000000).toFixed(1) + "M";
-        } else if (views >= 1000) {
-            return (views / 1000).toFixed(1) + "K";
-        }
-        return views.toString();
-    };
+        if (!views) return "0"; // Default to 0 if undefined
+        return views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };    
 
     //   const formatPublishedAt = (isoDate) => {
     //     const date = new Date(isoDate);
@@ -81,10 +90,6 @@ const VideoCart = ({ item, duration }) => {
 
 
 
-
-
-
-
     return (
         <div className="w-94 cursor-pointer my-2 relative">
             <img
@@ -106,7 +111,7 @@ const VideoCart = ({ item, duration }) => {
                         </h1>
                         <p className="text-sm sm:text-xs text-[#C5C5C5] mt-[5px]">{item.snippet.channelTitle}</p>
                         <div className="flex gap-2 text-sm sm:text-xs text-gray-400 mt-1">
-                            <p className='font-roboto font-medium not-italic text-[#C5C5C5]'>{formatViews(item.statistics.viewCount)} views</p>
+                            <p className='font-roboto font-medium not-italic text-[#C5C5C5]'>{formatViews(item?.statistics?.viewCount)} views</p>
                             <p className='font-roboto font-medium not-italic text-[#C5C5C5]'>{formatPublishedAt(item.snippet.publishedAt)}</p>
                         </div>
                     </div>

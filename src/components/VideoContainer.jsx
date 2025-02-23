@@ -5,14 +5,14 @@ import VideoCart from './VideoCart';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { setHomeVideo } from '../utils/appSlice';
-
+// import ChatMessage from './ChatMessage'
 
 
 const VideoContainer = () => {
     const { video, category } = useSelector((store) => store.app);
     console.log(category);
     const dispatch = useDispatch();
-    // jab bhi api call/network call kr rhe ho toh apko hmesha useEffect use krna hai
+    // jab bhi api call/network call kr rhe ho toh hmesha useEffect use krna hai
     const fetchingYoutubeVideo = async () => {
         try {
             const res = await axios.get(`${YOUTUBE_VIDEO_API}`);
@@ -55,7 +55,6 @@ const VideoContainer = () => {
                         <VideoCart duration={item?.contentDetails?.duration} item={item} />
                       </Link>
                       
-
                     )
                 })
             }
